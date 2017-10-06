@@ -37,6 +37,7 @@ function Manta (settings) {
   this.user = settings.user;
   this.subUser = settings.subUser;
   this.publicKeyID = settings.publicKeyID;
+  this.rootDirectory = settings.rootDirectory || '~~/stor';
 
   this._models = Object.create(null);
   this._directories = Object.create(null);
@@ -54,17 +55,48 @@ function Manta (settings) {
   debug('manta ready: %s', this.client.toString());
 }
 
+Manta.prototype.find = Manta.prototype.all = function (modelName, filter, callback) {
+  this._directories[modelName].find(filter, callback);
+};
+
 Manta.prototype.create = function (modelName, data, callback) {
   this._directories[modelName].create(data, callback);
 };
 
 Manta.prototype.define = function (definition) {
+  const toDisable = [
+    'count',
+    'createChangeStream',
+    'deleteById',
+    'exists',
+    'findOne',
+    'patchOne',
+    'patchOrCreate',
+    'patchOrCreateWithWhere',
+    'prototype.patchAttributes',
+    'prototype.updateAttributes',
+    'replace',
+    'replaceById',
+    'replaceOrCreate',
+    'update',
+    'updateOrCreate',
+    'updateAll',
+    'upsert',
+    'upsertWithWhere'
+  ];
+
+  toDisable.forEach(f => {
+    definition.model.disableRemoteMethod(f, true);
+  });
+
   const modelName = definition.model.modelName;
   const pluralModelName = definition.model.pluralModelName;
 
   let directoryName = definition.settings.http
     ? definition.settings.http.path
     : (pluralModelName || modelName);
+
+  directoryName = `${this.rootDirectory}/${directoryName}`;
 
   this._models[modelName] = definition;
 
