@@ -23,18 +23,6 @@ exports.initialize = (dataSource, callback) => {
 
   connector.DataAccessObject = DataAccessObject;
 
-  /*
-  Object.keys(Manta.prototype).forEach(m => {
-    const method = Manta.prototype[m];
-    if (typeof method === 'function') {
-      connector.DataAccessObject[m] = method.bind(connector);
-      Object.keys(method).forEach(k => {
-        connector.DataAccessObject[m][k] = method[k];
-      });
-    }
-  });
-  */
-
   if (callback) {
     setImmediate(callback);
   }
