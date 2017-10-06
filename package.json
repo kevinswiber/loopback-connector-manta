@@ -1,0 +1,24 @@
+{
+  "name": "loopback-connector-manta",
+  "version": "0.1.0",
+  "description": "A LoopBack connector for Manta",
+  "main": "manta.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "loopback",
+    "manta",
+    "triton",
+    "object",
+    "store",
+    "data",
+    "source"
+  ],
+  "author": "Kevin Swiber <kswiber@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "manta": "^5.1.0"
+  }
+}
