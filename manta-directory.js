@@ -44,6 +44,11 @@ MantaDirectory.prototype.find = function (filter, callback) {
 
   this.connector.client.ls(path, (err, res) => {
     if (err) {
+      if (err.code === 'NotFoundError') {
+        callback(null, []);
+        return;
+      }
+
       callback(err);
       return;
     }
