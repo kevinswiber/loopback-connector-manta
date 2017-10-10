@@ -38,13 +38,15 @@ function Manta (settings) {
   this.subUser = settings.subUser;
   this.keyId = settings.keyId;
   this.rootDirectory = settings.rootDirectory || '~~/stor';
+  this.privateKeyPath = settings.privateKeyPath || 
+    process.env.HOME + '/.ssh/id_rsa';
 
   this._models = Object.create(null);
   this._directories = Object.create(null);
 
   this.client = manta.createClient({
-    sign: manta.sshAgentSigner({
-      key: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa', 'utf8'),
+    sign: manta.privateKeySigner({
+      key: fs.readFileSync(this.privateKeyPath, { encoding: 'utf8' }),
       keyId: this.keyId,
       user: this.user
     }),
