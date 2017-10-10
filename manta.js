@@ -36,7 +36,7 @@ function Manta (settings) {
   this.url = settings.url;
   this.user = settings.user;
   this.subUser = settings.subUser;
-  this.publicKeyID = settings.publicKeyID;
+  this.keyId = settings.keyId;
   this.rootDirectory = settings.rootDirectory || '~~/stor';
 
   this._models = Object.create(null);
@@ -45,7 +45,7 @@ function Manta (settings) {
   this.client = manta.createClient({
     sign: manta.sshAgentSigner({
       key: fs.readFileSync(process.env.HOME + '/.ssh/id_rsa', 'utf8'),
-      keyId: this.publicKeyID,
+      keyId: this.keyId,
       user: this.user
     }),
     user: this.user,
